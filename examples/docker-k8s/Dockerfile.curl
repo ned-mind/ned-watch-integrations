@@ -1,0 +1,9 @@
+# Smallest option: curl + ned.sh, no Python or Node. Ids and secrets come from the environment (see ned.sh setup).
+#   docker run --rm --env-file backup.env my-job
+FROM alpine:3.20
+RUN apk add --no-cache curl
+COPY ned.sh /usr/local/bin/ned.sh
+COPY job.sh /app/job.sh
+ENV NED_REF=docker
+ENTRYPOINT ["/usr/local/bin/ned.sh", "run", "--"]
+CMD ["/app/job.sh"]

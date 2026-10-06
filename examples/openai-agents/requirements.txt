@@ -1,0 +1,2 @@
+ned-watch
+openai-agents>=0.20

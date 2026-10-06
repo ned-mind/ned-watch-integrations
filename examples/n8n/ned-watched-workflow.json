@@ -1,0 +1,213 @@
+{
+  "name": "Ned Watch: watched workflow (deadman + overrun)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "df3ca93c-da02-5e87-abd5-da2f925d1a2c",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ned.watch/v1/watches/w_OVERRUN_ID/start",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ned-Ref",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"run_id\": \"n8n-{{ $execution.id }}\"\n}"
+      },
+      "id": "fe84fb33-b009-5d9d-8a63-8890f6b021ad",
+      "name": "Ned: run started",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Ned overrun secret"
+        }
+      },
+      "notes": "Overrun: Ned fires if this run doesn't reach 'run finished' within max_runtime_s."
+    },
+    {
+      "parameters": {},
+      "id": "ef95b22d-afab-5a5c-aea9-77a8ad23c02c",
+      "name": "Your work goes here",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        440,
+        0
+      ],
+      "notes": "Replace with your workflow's real steps."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ned.watch/v1/watches/w_OVERRUN_ID/finish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ned-Ref",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"run_id\": \"n8n-{{ $execution.id }}\"\n}"
+      },
+      "id": "87afa5fe-0c7c-56fa-be61-6e1e3abbd084",
+      "name": "Ned: run finished",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Ned overrun secret"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ned.watch/v1/checkin/w_DEADMAN_ID",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ned-Ref",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "97ec7879-36d6-514c-8be3-0de07d88ac8a",
+      "name": "Ned: check in",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Ned deadman secret"
+        }
+      },
+      "notes": "Deadman: Ned fires if this check-in doesn't arrive within interval_s. Keep it last: it runs only when every step before it succeeded."
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Ned: run started",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ned: run started": {
+      "main": [
+        [
+          {
+            "node": "Your work goes here",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Your work goes here": {
+      "main": [
+        [
+          {
+            "node": "Ned: run finished",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ned: run finished": {
+      "main": [
+        [
+          {
+            "node": "Ned: check in",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

@@ -1,0 +1,11 @@
+# Ned Watch in crontab. Pick one style per job. Lines are copy-paste ready; replace the ids, paths and names.
+# (crontab treats % specially: none of these use it.)
+
+# 1. curl only: check in after the job succeeds (&&). Secret kept in a file (chmod 600), never in the crontab.
+0 3 * * * /usr/local/bin/backup.sh && curl -fsS -m 20 --retry 3 -X POST https://api.ned.watch/v1/checkin/w_0123456789ab -H "Authorization: Bearer $(cat $HOME/.config/ned-watch/backup.secret)" -H "X-Ned-Ref: cron" >/dev/null
+
+# 2. ned-run (pip install ned-watch, or npm i -g ned-watch): overrun around the job + deadman on success
+0 3 * * * ned-run --name backup --max 30m --every 1d -- /usr/local/bin/backup.sh
+
+# 3. ned.sh (curl only), after `ned.sh setup backup 86400 https://you.example/hooks/ned 1800`
+0 3 * * * /usr/local/bin/ned.sh -e $HOME/.config/ned-watch/backup.env run -- /usr/local/bin/backup.sh

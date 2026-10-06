@@ -1,0 +1,145 @@
+{
+ "source": "https://github.com/n8n-io/n8n/tree/e77e30c7d92f4fbc34337f7bcc80ce3f52e5d073/packages/nodes-base/nodes",
+ "httpRequest": {
+  "type": "n8n-nodes-base.httpRequest",
+  "versions": [
+   3.0,
+   4.0,
+   4.1,
+   4.2,
+   4.3,
+   4.4,
+   4.5
+  ],
+  "parameters": [
+   "authentication",
+   "body",
+   "bodyParameters",
+   "contentType",
+   "curlImport",
+   "genericAuthType",
+   "googleApiWarning",
+   "headerParameters",
+   "infoMessage",
+   "inputDataFieldName",
+   "jsonBody",
+   "jsonHeaders",
+   "jsonQuery",
+   "method",
+   "nodeCredentialType",
+   "options",
+   "provideSslCertificates",
+   "provideSslCertificatesNotice",
+   "queryParameters",
+   "rawContentType",
+   "sendBody",
+   "sendHeaders",
+   "sendQuery",
+   "specifyBody",
+   "specifyHeaders",
+   "specifyQuery",
+   "sslCertificate",
+   "url"
+  ],
+  "options": [
+   "allowUnauthorizedCerts",
+   "batching",
+   "lowercaseHeaders",
+   "pagination",
+   "proxy",
+   "queryParameterArrays",
+   "redirect",
+   "response",
+   "sendCredentialsOnCrossOriginRedirect",
+   "timeout",
+   "webdavMethods"
+  ],
+  "methods": [
+   "DELETE",
+   "GET",
+   "HEAD",
+   "OPTIONS",
+   "PATCH",
+   "POST",
+   "PUT"
+  ],
+  "authentication": [
+   "none",
+   "predefinedCredentialType",
+   "genericCredentialType"
+  ],
+  "specify": [
+   "keypair",
+   "json"
+  ],
+  "contentType": [
+   "form-urlencoded",
+   "multipart-form-data",
+   "json",
+   "binaryData",
+   "raw"
+  ]
+ },
+ "scheduleTrigger": {
+  "type": "n8n-nodes-base.scheduleTrigger",
+  "versions": [
+   1.0,
+   1.1,
+   1.2,
+   1.3,
+   1.4
+  ],
+  "fields": [
+   "cronExpression",
+   "days",
+   "hours",
+   "minutes",
+   "months",
+   "seconds",
+   "weeks"
+  ],
+  "intervalParameters": [
+   "daysInterval",
+   "expression",
+   "field",
+   "hoursInterval",
+   "minutesInterval",
+   "monthsInterval",
+   "notice",
+   "secondsInterval",
+   "triggerAtDay",
+   "triggerAtDayOfMonth",
+   "triggerAtHour",
+   "triggerAtMinute",
+   "weeksInterval"
+  ]
+ },
+ "noOp": {
+  "type": "n8n-nodes-base.noOp",
+  "versions": [
+   1
+  ]
+ },
+ "manualTrigger": {
+  "type": "n8n-nodes-base.manualTrigger",
+  "versions": [
+   1
+  ]
+ },
+ "nodeSettings": [
+  "retryOnFail",
+  "maxTries",
+  "waitBetweenTries",
+  "onError",
+  "alwaysOutputData",
+  "executeOnce",
+  "notes",
+  "notesInFlow",
+  "disabled"
+ ],
+ "onError": [
+  "stopWorkflow",
+  "continueRegularOutput",
+  "continueErrorOutput"
+ ]
+}

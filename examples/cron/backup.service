@@ -1,0 +1,11 @@
+# /etc/systemd/system/backup.service: the job, then a Ned check-in only if it succeeded.
+# ExecStartPost runs only after ExecStart succeeded. The env file (mode 600) holds NED_WATCH_ID and NED_SIGNING_SECRET
+# (ned.sh setup writes one). The leading "-" means a failed check-in never marks the job failed.
+[Unit]
+Description=Nightly backup (watched by Ned)
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/ned-watch/backup.env
+ExecStart=/usr/local/bin/backup.sh
+ExecStartPost=-/usr/bin/curl -fsS -m 20 --retry 3 -X POST https://api.ned.watch/v1/checkin/${NED_WATCH_ID} -H "Authorization: Bearer ${NED_SIGNING_SECRET}" -H "X-Ned-Ref: systemd"

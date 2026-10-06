@@ -1,0 +1,32 @@
+name: publish-npm
+# Tag js-vX.Y.Z (matching js/package.json) to release ned-watch to npm. The very first release uses the NPM_TOKEN
+# repository secret (the package must exist before npm's trusted publishing can be set up); after that, trusted
+# publishing (OIDC) and the secret is deleted.
+on:
+  push:
+    tags: ["js-v*"]
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install -g npm@latest
+      - name: Build
+        run: cd js && npm install --no-audit --no-fund && node build.mjs
+      - name: Publish (tests already passed above)
+        run: cd js && npm publish --access public --provenance --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

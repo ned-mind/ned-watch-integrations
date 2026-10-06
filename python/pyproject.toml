@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ned-watch"
+version = "0.1.0"
+description = "Know when your agent silently stops. Deadman check-ins and run timeouts for AI agents, cron jobs and pipelines, on Ned Watch."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ned Watch", email = "ned@ned.watch" }]
+keywords = ["monitoring", "heartbeat", "deadman", "cron", "agents", "uptime", "langgraph", "crewai"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: System :: Monitoring",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+httpx = ["httpx>=0.24"]
+
+[project.urls]
+Homepage = "https://ned.watch"
+Source = "https://github.com/ned-mind/ned-watch-integrations"
+Documentation = "https://ned.watch/integrations/python"
+API = "https://api.ned.watch/docs"
+
+[project.scripts]
+nedwatch = "nedwatch.cli:main"
+ned-watch = "nedwatch.cli:main"
+ned-run = "nedwatch.cli:ned_run_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+nedwatch = ["py.typed"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

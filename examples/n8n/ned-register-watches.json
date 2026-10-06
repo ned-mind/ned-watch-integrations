@@ -1,0 +1,117 @@
+{
+  "name": "Ned Watch: register watches (run once)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "07ff8bc4-6fe5-5e00-a55e-44e6b079fd52",
+      "name": "Run once",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ned.watch/v1/watches",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ned-Ref",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"deadman\",\n  \"interval_s\": 3600,\n  \"callback_url\": \"https://your-agent.example/hooks/ned\",\n  \"condition\": {\"label\": \"my-n8n-workflow\", \"arm\": true},\n  \"meta\": {\"ref\": \"n8n\"}\n}"
+      },
+      "id": "c7eac3b6-4a46-5eeb-96e6-ef9cf85a1d47",
+      "name": "Register deadman",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "notes": "Returns watch_id, signing_secret and (first time only) agent_key. Save them; make a Header Auth credential 'Ned deadman secret' with Name=Authorization, Value=Bearer <signing_secret>."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ned.watch/v1/watches",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Ned-Ref",
+              "value": "n8n"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.agent_key }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"overrun\",\n  \"max_runtime_s\": 1800,\n  \"callback_url\": \"https://your-agent.example/hooks/ned\",\n  \"condition\": {\"label\": \"my-n8n-workflow\"}\n}"
+      },
+      "id": "744c700c-efc7-5ba9-ba30-804f6759ad60",
+      "name": "Register overrun",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "notes": "Uses the agent_key from the step before, so both watches belong to one agent. Save its signing_secret as a Header Auth credential 'Ned overrun secret' (Name=Authorization, Value=Bearer <signing_secret>)."
+    }
+  ],
+  "connections": {
+    "Run once": {
+      "main": [
+        [
+          {
+            "node": "Register deadman",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Register deadman": {
+      "main": [
+        [
+          {
+            "node": "Register overrun",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

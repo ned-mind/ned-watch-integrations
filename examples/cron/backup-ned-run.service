@@ -1,0 +1,9 @@
+# Alternative: wrap the job with ned-run (overrun + deadman). NED_AGENT_KEY and NED_CALLBACK_URL in the env file.
+[Unit]
+Description=Nightly backup (wrapped by ned-run)
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/ned-watch/ned.env
+Environment=NED_STATE=/var/lib/ned-watch/state.json
+ExecStart=/usr/local/bin/ned-run --ref systemd --name backup --max 30m --every 1d -- /usr/local/bin/backup.sh

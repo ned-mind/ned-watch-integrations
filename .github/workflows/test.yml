@@ -1,0 +1,30 @@
+name: test
+# Public CI: both packages build and import cleanly. The full suite runs against a local Ned Watch server that isn't open
+# source, so it runs before every release on Ned's side.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Python package builds and imports
+        run: |
+          python -m pip install -q build && python -m build python
+          python -m pip install -q python/dist/*.whl
+          python -c "import nedwatch; from nedwatch import Ned; print('nedwatch', nedwatch.__version__ if hasattr(nedwatch, '__version__') else 'ok')"
+          nedwatch --help > /dev/null
+      - name: Node package builds and imports
+        run: |
+          cd js && npm install --no-audit --no-fund && node build.mjs && node -e "require('./dist/cjs/index.js'); import('./dist/esm/index.js').then(()=>console.log('ned-watch ok'))"
+          npm pack --dry-run > /dev/null

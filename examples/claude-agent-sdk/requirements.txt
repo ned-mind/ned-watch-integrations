@@ -1,0 +1,2 @@
+ned-watch
+claude-agent-sdk>=0.2

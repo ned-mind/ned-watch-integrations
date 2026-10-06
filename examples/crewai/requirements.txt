@@ -1,0 +1,2 @@
+ned-watch
+crewai>=1.0

@@ -1,0 +1,10 @@
+# /etc/systemd/system/backup.timer: systemctl enable --now backup.timer
+[Unit]
+Description=Run backup nightly
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
