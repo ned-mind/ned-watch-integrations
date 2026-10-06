@@ -27,7 +27,7 @@ Save `watch_id` and `signing_secret` as Pipedream environment variables (`NED_WA
 Pipedream installs npm packages you import, so the client works in a Node.js step:
 
 ```js
-import { Ned } from "ned-watch";
+import { Ned } from "@nedwatch/ned-watch";
 
 export default defineComponent({
   async run({ steps }) {

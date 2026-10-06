@@ -1,5 +1,5 @@
 {
-  "name": "ned-watch",
+  "name": "@nedwatch/ned-watch",
   "version": "0.1.0",
   "description": "Know when your agent silently stops. Deadman check-ins and run timeouts for AI agents, cron jobs and pipelines, on Ned Watch. Zero dependencies.",
   "license": "MIT",

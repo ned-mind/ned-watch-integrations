@@ -3,7 +3,7 @@
 Know when your Node agent or job silently stops.
 
 ```js
-import { Ned } from "ned-watch";              // npm i ned-watch, and set NED_CALLBACK_URL
+import { Ned } from "@nedwatch/ned-watch";              // npm i @nedwatch/ned-watch, and set NED_CALLBACK_URL
 const sync = new Ned().deadman("nightly-sync", { every: "1h" }).wrap(async () => { /* your job */ });
 await sync();                                 // Ned fires if this hasn't finished cleanly for an hour
 ```
@@ -13,7 +13,7 @@ Zero dependencies (global `fetch`), Node 18.17 and up, ESM and CommonJS, types i
 ## Setup
 
 ```bash
-npm i ned-watch
+npm i @nedwatch/ned-watch
 export NED_CALLBACK_URL=https://your-agent.example/hooks/ned
 ```
 
@@ -26,7 +26,7 @@ else `js`.
 ## Deadman
 
 ```js
-import { Ned } from "ned-watch";
+import { Ned } from "@nedwatch/ned-watch";
 const ned = new Ned();
 
 const heartbeat = ned.deadman("research-agent", { every: "10m" });
@@ -64,24 +64,24 @@ await ned.register("content", { target: "https://example.com/health", interval_s
 Errors are `NedError` (`.status`, `.detail`) and `NedConfigError`. `wrap()` and `run()` never throw for a Ned problem
 unless you pass `strict: true`. Warnings go to `console.warn` (or `logger`).
 
-CommonJS: `const { Ned } = require("ned-watch");`
+CommonJS: `const { Ned } = require("@nedwatch/ned-watch");`
 
 ## Command line
 
 ```bash
-npx ned-watch setup --name nightly-sync --every 1h
-npx ned-watch checkin nightly-sync
-npx -p ned-watch ned-run --name backup --max 30m --every 1d -- ./backup.sh
-npx ned-watch doctor
+npx @nedwatch/ned-watch setup --name nightly-sync --every 1h
+npx @nedwatch/ned-watch checkin nightly-sync
+npx -p @nedwatch/ned-watch ned-run --name backup --max 30m --every 1d -- ./backup.sh
+npx @nedwatch/ned-watch doctor
 ```
 
-Installed globally (`npm i -g ned-watch`) the commands are `nedwatch` and `ned-run`. Same flags and state file as the
+Installed globally (`npm i -g @nedwatch/ned-watch`) the commands are `nedwatch` and `ned-run`. Same flags and state file as the
 Python CLI, so either can check in to a watch the other set up.
 
 ## Verifying callbacks
 
 ```js
-import { verifySignature } from "ned-watch";
+import { verifySignature } from "@nedwatch/ned-watch";
 app.post("/hooks/ned", express.raw({ type: "application/json" }), (req, res) => {
   if (!verifySignature(process.env.NED_SIGNING_SECRET, req.headers, req.body)) return res.sendStatus(401);
   const event = JSON.parse(req.body);   // event.event is fire | clear | test | ...

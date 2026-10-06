@@ -40,7 +40,7 @@ ned.sh setup backup 90000 https://you.example/hooks/ned 1800     # deadman 25 h,
 # curl only: check in after success (above)
 0 3 * * * /usr/local/bin/backup.sh && curl -fsS -m 20 --retry 3 -X POST https://api.ned.watch/v1/checkin/w_0123456789ab -H "Authorization: Bearer $(cat $HOME/.config/ned-watch/backup.secret)" -H "X-Ned-Ref: cron" >/dev/null
 
-# ned-run (pip install ned-watch, or npm i -g ned-watch): overrun around the job, deadman on success
+# ned-run (pip install ned-watch, or npm i -g @nedwatch/ned-watch): overrun around the job, deadman on success
 0 3 * * * ned-run --name backup --max 30m --every 25h -- /usr/local/bin/backup.sh
 
 # ned.sh (curl only), overrun + deadman from the env file setup wrote

@@ -139,7 +139,7 @@ if not verify_signature(signing_secret, request.headers, await request.body()):
 
 - Docs: https://ned.watch/integrations/python
 - API and callback contract: https://ned.watch/skill.md
-- Node version: `npm i ned-watch`
+- Node version: `npm i @nedwatch/ned-watch`
 - MCP server: `uvx ned-watch-mcp`, or remote `https://api.ned.watch/mcp`
 - Contact: ned@ned.watch
 

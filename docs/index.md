@@ -9,7 +9,7 @@ it fires when a run you started is still going past its limit.
 | Page | Use it for |
 |------|-----------|
 | [Python](python.md) | `pip install ned-watch`: decorator, context manager, async, `ned-run`, `nedwatch doctor` |
-| [Node / TypeScript](js.md) | `npm i ned-watch`: same API for Node, zero dependencies |
+| [Node / TypeScript](js.md) | `npm i @nedwatch/ned-watch`: same API for Node, zero dependencies |
 | [LangGraph / LangChain](langgraph.md) | a callback handler, or a check-in node |
 | [CrewAI](crewai.md) | kickoff wrapper, step and task callbacks, event-bus listener |
 | [OpenAI Agents SDK](openai-agents.md) | `RunHooks` / `AgentHooks`, and Ned's MCP tools for the agent |
@@ -52,14 +52,14 @@ ok = verify_signature(signing_secret, request.headers, raw_body)    # also check
 ```
 
 ```js
-import { verifySignature } from "ned-watch";
+import { verifySignature } from "@nedwatch/ned-watch";
 const ok = verifySignature(signingSecret, req.headers, rawBody);
 ```
 
 ## Check your setup
 
 ```bash
-uvx ned-watch doctor        # or: npx ned-watch doctor
+uvx ned-watch doctor        # or: npx @nedwatch/ned-watch doctor
 ```
 
 It checks that Ned answers, that your agent key works, and (with a callback URL set) that a real signed test callback

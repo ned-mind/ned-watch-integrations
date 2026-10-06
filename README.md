@@ -9,14 +9,14 @@ crashed. Checked from two stations (US and EU), with signed callbacks. The first
 
 ```bash
 pip install ned-watch      # Python: import nedwatch
-npm install ned-watch      # Node
+npm install @nedwatch/ned-watch      # Node
 ```
 
 The quickest start: one command makes your agent and a deadman watch, sends a signed test callback, and does the first
 check-in (no callback yet? a free https://webhook.site URL works for trying it):
 
 ```bash
-uvx ned-watch setup --callback https://you.example/hooks/ned --name nightly-sync --every 1h    # or: npx ned-watch setup ...
+uvx ned-watch setup --callback https://you.example/hooks/ned --name nightly-sync --every 1h    # or: npx @nedwatch/ned-watch setup ...
 ```
 
 ## What's here
@@ -24,7 +24,7 @@ uvx ned-watch setup --callback https://you.example/hooks/ned --name nightly-sync
 | Path | What |
 |---|---|
 | `python/` | `ned-watch` for Python: client, `@deadman` decorator, `run()` for overrun, async, CLIs `nedwatch` and `ned-run`, framework integrations under `nedwatch.integrations` |
-| `js/` | `ned-watch` for Node: the same client (zero dependencies, ESM + CJS + types) and CLIs |
+| `js/` | `@nedwatch/ned-watch` for Node: the same client (zero dependencies, ESM + CJS + types) and CLIs |
 | `examples/langgraph` | LangGraph / LangChain callback handler and check-in node |
 | `examples/crewai` | kickoff wrapper, step and task callbacks, event-bus listener |
 | `examples/openai-agents` | OpenAI Agents SDK run hooks and MCP configs |
