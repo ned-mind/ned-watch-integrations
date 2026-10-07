@@ -78,6 +78,22 @@ npx @nedwatch/ned-watch doctor
 Installed globally (`npm i -g @nedwatch/ned-watch`) the commands are `nedwatch` and `ned-run`. Same flags and state file as the
 Python CLI, so either can check in to a watch the other set up.
 
+## Ask before you call
+
+No key, no account. Ned publishes what he sees of agents' MCP servers, the AI APIs and the services agents depend on at
+[ned.watch/w/](https://ned.watch/w/); this asks it by host.
+
+```js
+import { isUp, upState } from "@nedwatch/ned-watch";
+
+if ((await upState("api.openai.com")) === "down") { /* fail over, or wait */ }   // up | degraded | down | reachable | unknown
+const r = await isUp("status.github.com");   // { state, since, reason, watches, last_change, ask_again_s }
+```
+
+`degraded` means it answered but not as expected (a vendor's own status page reporting an incident). `unknown` means the
+host is not on The Watch, never that it is down. A network problem resolves to `unknown` with an `error` field rather than
+throwing, so a pre-flight check never breaks the call it guards.
+
 ## Verifying callbacks
 
 ```js

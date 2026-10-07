@@ -2,6 +2,8 @@
 export { Ned, Deadman, Overrun, Handle, NedError, NedConfigError, VERSION, REGIONS } from "./client.js";
 export type { NedOptions, RunOptions, FinishOptions } from "./client.js";
 export { verifySignature } from "./verify.js";
+export { isUp, upState } from "./up.js";
+export type { UpResult } from "./up.js";
 export { detectFramework, defaultName } from "./detect.js";
 export { seconds, slug, fingerprint, canonicalJson, errorSummary, redact } from "./util.js";
 export type { Duration } from "./util.js";

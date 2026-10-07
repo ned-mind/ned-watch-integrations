@@ -127,6 +127,23 @@ nedwatch status
 - [OpenAI Agents SDK](openai-agents.md): `NedRunHooks`
 - [Claude Agent SDK](claude-agent-sdk.md): `NedHooks`
 
+## Ask before you call
+
+No key, no account. Ned publishes what he sees of agents' MCP servers, the AI APIs and the services agents depend on at
+[ned.watch/w/](https://ned.watch/w/); this asks it by host.
+
+```python
+from nedwatch import is_up, up_state
+
+if up_state("api.openai.com") == "down":      # "up" | "degraded" | "down" | "reachable" | "unknown"
+    ...fail over, or wait...
+r = is_up("status.github.com")                # dict: state, since, reason, watches, last_change, ask_again_s
+```
+
+`degraded` means it answered but not as expected (for a vendor's status feed, their own page reports an incident).
+`unknown` means the host is not on The Watch, never that it is down; the answer then says how to add it. A network
+problem returns `unknown` with an `error` field rather than raising, so a pre-flight check never breaks the call it guards.
+
 ## Verifying callbacks
 
 ```python
