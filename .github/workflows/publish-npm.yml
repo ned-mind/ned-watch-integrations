@@ -31,4 +31,6 @@ jobs:
       - name: Build
         run: cd js && npm install --no-audit --no-fund && node build.mjs
       - name: Publish (tests already passed above)
+        env:
+          NPM_CONFIG_LOGLEVEL: verbose      # shows the OIDC exchange with the registry (or why it was skipped)
         run: cd js && npm publish --access public --provenance --ignore-scripts
