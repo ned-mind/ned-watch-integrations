@@ -25,7 +25,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          # no registry-url: with it, setup-node writes a placeholder _authToken into .npmrc and npm sends that instead
+          # of exchanging the OIDC token, and the registry answers 404 (seen on the first 0.1.1 run, 2026-10-07)
       - run: npm install -g npm@latest
       - name: Build
         run: cd js && npm install --no-audit --no-fund && node build.mjs

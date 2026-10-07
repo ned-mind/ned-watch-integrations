@@ -28,9 +28,9 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "nedwatch": "./dist/esm/cli.js",
-    "ned-watch": "./dist/esm/cli.js",
-    "ned-run": "./dist/esm/ned-run.js"
+    "nedwatch": "dist/esm/cli.js",
+    "ned-watch": "dist/esm/cli.js",
+    "ned-run": "dist/esm/ned-run.js"
   },
   "files": [
     "dist",
