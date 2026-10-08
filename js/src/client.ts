@@ -4,7 +4,7 @@ import { State, WatchRecord } from "./state.js";
 import { Duration, errorSummary, fingerprint, seconds, slug } from "./util.js";
 import { defaultName, detectFramework } from "./detect.js";
 
-export const VERSION = "0.1.1";
+export const VERSION = "0.1.2";
 export const REGIONS = { us: "https://api.ned.watch", eu: "https://api-eu.ned.watch" } as const;
 const REGISTER_TIMEOUT_MS = 75_000;          // Ned delivers the signed test callback before it answers a new registration
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);

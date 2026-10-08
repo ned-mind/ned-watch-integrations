@@ -27,10 +27,10 @@ jobs:
           node-version: "22"
           # no registry-url: with it, setup-node writes a placeholder _authToken into .npmrc and npm sends that instead
           # of exchanging the OIDC token, and the registry answers 404 (seen on the first 0.1.1 run, 2026-10-07)
-      - run: npm install -g npm@latest
+      # pinned, not @latest: trusted publishing (OIDC) needs npm >= 11.5.1, and Node 22 bundles npm 10.x
+      - run: npm install -g npm@11.6.2
       - name: Build
-        run: cd js && npm install --no-audit --no-fund && node build.mjs
+        # no package-lock.json in js/ (adding one is out of scope), so npm install rather than npm ci; no install scripts
+        run: cd js && npm install --ignore-scripts --no-audit --no-fund && node build.mjs
       - name: Publish (tests already passed above)
-        env:
-          NPM_CONFIG_LOGLEVEL: verbose      # shows the OIDC exchange with the registry (or why it was skipped)
         run: cd js && npm publish --access public --provenance --ignore-scripts

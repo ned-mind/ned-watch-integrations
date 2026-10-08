@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ned-watch"
-version = "0.1.1"
+version = "0.1.2"
 description = "Know when your agent silently stops. Deadman check-ins and run timeouts for AI agents, cron jobs and pipelines, on Ned Watch."
 readme = "README.md"
 requires-python = ">=3.9"

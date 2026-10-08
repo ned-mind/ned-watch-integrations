@@ -8,7 +8,7 @@
 
 Docs: https://ned.watch/integrations/python
 """
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from .client import Deadman, Ned, NedConfigError, NedError, Overrun, Run  # noqa: E402
 from .detect import default_name, detect_framework  # noqa: E402
